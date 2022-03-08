@@ -29,7 +29,7 @@ function init() {
   camera.position.set(1,1,100)
 
   scene = new THREE.Scene();
-  scene.background = new THREE.Color( 0x040F1A );
+  //scene.background = new THREE.Color( 0x040F1A );
 
   const light = new THREE.DirectionalLight( 0xffffff, 1 );
   light.position.set( 20, -20, 100 ).normalize();
@@ -51,7 +51,7 @@ function init() {
   // Spheres generation
   // mainPlanet
   const geometrySphere = new THREE.SphereGeometry( 28, 64, 32 );
-  const materialSphere = new THREE.MeshLambertMaterial( { color: 0xBD5220 } );
+  const materialSphere = new THREE.MeshLambertMaterial( { color: 0x935CF2 } );
   mainPlanet = new THREE.Mesh( geometrySphere, materialSphere );
   scene.add( mainPlanet );
   mainPlanet.position.x = -58
@@ -104,7 +104,7 @@ function init() {
 
   raycaster = new THREE.Raycaster();
 
-  renderer = new THREE.WebGLRenderer();
+  renderer = new THREE.WebGLRenderer({alpha: true, antialias: true});
   renderer.setPixelRatio( window.devicePixelRatio );
   //renderer.setSize( window.innerWidth, window.innerHeight );
   renderer.setSize( sceneContainer.clientWidth, sceneContainer.clientHeight )
