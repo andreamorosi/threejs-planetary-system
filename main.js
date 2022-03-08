@@ -1,5 +1,7 @@
 import './style.css'
 
+import * as TWEEN from "@tweenjs/tween.js";
+
 import * as THREE from 'three';
 
 import { DragControls } from 'three/examples/jsm/controls/DragControls.js';
@@ -15,7 +17,7 @@ let INTERSECTED;
 let theta = 0
 
 var planets = []
-var mainPlanet
+var mainPlanet, coords
 
 const pointer = new THREE.Vector2();
 const radius = 100;
@@ -27,6 +29,8 @@ function init() {
 
   camera = new THREE.PerspectiveCamera( 70, sceneContainer.clientWidth / sceneContainer.clientHeight, 1, 10000 );
   camera.position.set(1,1,100)
+  camera.lookAt(0,0,0)
+  coords = { x: camera.position.x, y: camera.position.y, z: camera.position.z }
 
   scene = new THREE.Scene();
   //scene.background = new THREE.Color( 0x040F1A );
@@ -57,6 +61,7 @@ function init() {
   mainPlanet.position.x = -58
   mainPlanet.position.y = -5
   mainPlanet.position.z = -15
+  mainPlanet.txtInfo = "mainPlanet text"
 
   // planetOne
   const geometryPlanetOne = new THREE.SphereGeometry( 8, 64, 32 );
@@ -66,6 +71,7 @@ function init() {
   planetOne.position.x = -6
   planetOne.position.y = 27
   planetOne.position.z = 5
+  planetOne.txtInfo = "planetOne text"
   planets.push(planetOne)
 
   // planetTwo
@@ -76,6 +82,7 @@ function init() {
   planetTwo.position.x = 10
   planetTwo.position.y = -31
   planetTwo.position.z = -5
+  planetTwo.txtInfo = "planetTwo text"
   planets.push(planetTwo)
 
   // planetThree
@@ -86,6 +93,7 @@ function init() {
   planetThree.position.x = 50
   planetThree.position.y = -4
   planetThree.position.z = 1.5
+  planetThree.txtInfo = "planetThree text"
   planets.push(planetThree)
 
   // planetFour
@@ -96,6 +104,7 @@ function init() {
   planetFour.position.x = 92
   planetFour.position.y = 20
   planetFour.position.z = -10
+  planetFour.txtInfo = "planetFour text"
   planets.push(planetFour)
 
   console.log(planets)
@@ -160,6 +169,11 @@ function doubleClick (event) {
   <div><em>position</em>: x = ${ghostObj.position.x}, y = ${ghostObj.position.y}, z = ${ghostObj.position.z}</div>
   <div><em>scale</em>: x = ${ghostObj.scale.x}, y = ${ghostObj.scale.y}, z = ${ghostObj.scale.z}</div>
   `
+  console.log(coords)
+  document.querySelector(".popup").innerText = ghostObj.txtInfo
+  new TWEEN.Tween(camera.position).to({x: coords.x + 150, y: ghostObj.position.y - 250, z: 250},750).onComplete(() => camera.lookAt(ghostObj.position)).start()
+  document.querySelector("#scene canvas").classList.add("moved")
+  document.querySelector(".popup").classList.add("active")
 }
 
 //
@@ -168,6 +182,7 @@ function animate() {
 
   requestAnimationFrame( animate );
 
+  TWEEN.update()
   render();
   stats.update();
 }

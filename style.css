@@ -17,6 +17,10 @@
 #scene canvas {
   position: relative;
   z-index: 1;
+  transition: all ease-in .75s;
+}
+#scene canvas.moved {
+  transform: translate(-20vw,-20vh);
 }
 .ghostinfo {
   position: absolute;
@@ -82,4 +86,31 @@
   top: 0;
   position: absolute;
   border-left: 2px dashed white;
+}
+
+.popup {
+  position: absolute;
+  bottom: 0%;
+  right: 0%;
+  width: 50%;
+  height: 100%;
+
+  transform-origin: right;
+  transform: translateX(100%);
+  opacity: 0;
+  background-color: white;
+  color: black;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  font-size: 2rem;
+}
+
+.popup.active {
+  transform: translateX(0);
+  opacity: 1;
+  transition: all ease-in .75s;
 }
